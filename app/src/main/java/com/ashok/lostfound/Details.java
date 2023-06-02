@@ -157,7 +157,7 @@ public class Details extends AppCompatActivity {
         String desc = User_desc.getText().toString();
         String date = btnDatePicker.getText().toString();
 //        String location = autoCompleteTextView.getText().toString();
-        // Implementing database
+
         if (postType.isEmpty() || date.isEmpty()) {
             Toast.makeText(this, "Name and Date must not be empty", Toast.LENGTH_SHORT).show();
             return;
@@ -167,7 +167,7 @@ public class Details extends AppCompatActivity {
             Toast.makeText(Details.this, "Details saved successfully", Toast.LENGTH_SHORT).show();
             clear();
             Intent intent = new Intent(Details.this, MainActivity.class);
-            // Pass any necessary data using intent.putExtra() if needed
+
             startActivity(intent);
         } else {
             Toast.makeText(Details.this, "Failed to save details", Toast.LENGTH_SHORT).show();
@@ -194,13 +194,11 @@ public class Details extends AppCompatActivity {
     }
 
     private void getCurrentLocation() {
-        // Check if the ACCESS_FINE_LOCATION permission is granted
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            // Permission is granted, so get the current location
             getLocation();
         } else {
-            // Permission is not granted, so request the permission
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
@@ -208,15 +206,9 @@ public class Details extends AppCompatActivity {
     }
 
     private void getLocation() {
-        // Get the last known location from the FusedLocationProviderClient
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         Task<Location> locationTask = fusedLocationClient.getLastLocation();
@@ -224,19 +216,15 @@ public class Details extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    // Location is available
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    // Do something with the latitude and longitude
-                    // For example, display them in a TextView
-//                    TextView textView = findViewById(R.id.txtLocation);
+
                     Log.d("location",
                             "Latitude: " + latitude + ", Longitude: " + longitude);
 
                   String   placeName =Getname(latitude,longitude);
                   autoCompleteTextView.setText(placeName);
                 } else {
-                    // Location is not available
                     Toast.makeText(Details.this, "Location not found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -244,7 +232,6 @@ public class Details extends AppCompatActivity {
         locationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                // Failed to get location
                 Toast.makeText(Details.this, "Failed to get location", Toast.LENGTH_SHORT).show();
             }
         });
@@ -255,10 +242,8 @@ public class Details extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted, so get the current location
                 getLocation();
             } else {
-                // Permission is not granted
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
@@ -323,61 +308,7 @@ public class Details extends AppCompatActivity {
                 "      \"latitude\": -38.1499,\n" +
                 "      \"longitude\": 144.3617\n" +
                 "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Townsville\",\n" +
-                "      \"latitude\": -19.2580,\n" +
-                "      \"longitude\": 146.8169\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Cairns\",\n" +
-                "      \"latitude\": -16.9186,\n" +
-                "      \"longitude\": 145.7781\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Darwin\",\n" +
-                "      \"latitude\": -12.4634,\n" +
-                "      \"longitude\": 130.8456\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Toowoomba\",\n" +
-                "      \"latitude\": -27.5598,\n" +
-                "      \"longitude\": 151.9507\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Ballarat\",\n" +
-                "      \"latitude\": -37.5622,\n" +
-                "      \"longitude\": 143.8503\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Bendigo\",\n" +
-                "      \"latitude\": -36.7570,\n" +
-                "      \"longitude\": 144.2787\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Albury\",\n" +
-                "      \"latitude\": -36.0737,\n" +
-                "      \"longitude\": 146.9135\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Launceston\",\n" +
-                "      \"latitude\": -41.4332,\n" +
-                "      \"longitude\": 147.1449\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Mackay\",\n" +
-                "      \"latitude\": -21.1539,\n" +
-                "      \"longitude\": 149.1652\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Rockhampton\",\n" +
-                "      \"latitude\": -23.3816,\n" +
-                "      \"longitude\": 150.5116\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"Coffs Harbour\",\n" +
-                "      \"latitude\": -30.2963,\n" +
-                "      \"longitude\": 153.1131\n" +
-                "    }\n" +
+
                 "  ]";
 
         try {
@@ -403,7 +334,7 @@ public class Details extends AppCompatActivity {
           addresses = geocoder.getFromLocation(latitude, longitude, 1);
           if (addresses != null && !addresses.isEmpty()) {
               Address address = addresses.get(0);
-              placeName = address.getAddressLine(0); // Get the first address line
+              placeName = address.getAddressLine(0);
           }
       } catch (IOException e) {
           e.printStackTrace();
